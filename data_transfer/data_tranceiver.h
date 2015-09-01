@@ -16,7 +16,7 @@
 void serial_init(int fd, speed_t baud_rate);
 //
 void USBs_init(speed_t baud_rate);
-struct ServoValue receive_ServoValue(void);
-void transfer_ServoValue(struct ServoValue transfer_data);
+int receive_MeasureValue(void);
+void transfer_CommandValue(int target_servo, int transfer_data);
 
 #endif

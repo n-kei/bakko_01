@@ -6,6 +6,7 @@
 #include <termios.h>
 #include <time.h>
 #include <errno.h>
+#include "data_type.h"
 
 #define DEV_NAME "/dev/ttyUSB0"
 #define BAUD_RATE B9600
@@ -29,8 +30,9 @@ int main(int argc, char **argv)
 {
   int fd;
   int i, j;
-  int len;
+  int len, receive_data;
   unsigned char buffer[BUFF_SIZE], in_data[BUFF_SIZE];
+  union ServoData tmp;
 
   printf("start serial port read example..\n");
   fd = open(DEV_NAME, O_RDWR | O_NONBLOCK);
@@ -48,26 +50,21 @@ int main(int argc, char **argv)
   j = 0;
   
   while(1) {
-    write(fd, "999", sizeof("999"));
     len = read(fd, buffer, BUFF_SIZE);
-    if(len == 0) {
+    if(len <= 0) {
       continue;
     }
-    
-    /*
+
+    /*  
     if(len < 0) {
+      printf("%d\n", errno); 
       perror(argv[0]);
+      exit(2);
     }
-    */
-
-    for(i = 0; i < len; i++) {
-      printf("%c", buffer[i]);
-      in_data[i] = buffer[i];
-    }
-
+*/    
+    receive_data = atoi(buffer);
+    printf("recieve_data = %s\n", buffer);
   }
-
-  
   return(0);
 }
       
